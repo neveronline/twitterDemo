@@ -10,23 +10,36 @@ import UIKit
 
 class TweetsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     var tweets : [Tweet]!
+    var userlogin : User!
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.dataSource = self
         tableView.delegate = self
         TwitterClient.sharedInstance.homeTimeline({ (tweets:[Tweet]) -> () in
             self.tweets = tweets
             
+            
             for tweet in tweets{
-                print(tweet.text)
+                print(tweet.timestamp)
             }
             
             },failure:  { (error:NSError) -> () in
                 print(error.localizedDescription)
+                
         })
+        
+        TwitterClient.sharedInstance.currentAcount({ (userlogin: User) -> () in
+            
+            self.userlogin = userlogin
+            
+            self.tableView.reloadData()
+            }) { (error:NSError) -> () in
+                print(error.localizedDescription)
+        }
         // Do any additional setup after loading the view.
         
        
@@ -58,6 +71,8 @@ class TweetsViewController: UIViewController,UITableViewDataSource,UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("TwitterCell", forIndexPath: indexPath) as! TwitterCell
         
         cell.tweet = tweets[indexPath.row]
+        cell.user = userlogin
+        
         
         return cell
     }

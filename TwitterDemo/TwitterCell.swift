@@ -15,6 +15,8 @@ class TwitterCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
+    @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var countLabel: UILabel!
     
     var user: User!
     {
@@ -22,6 +24,7 @@ class TwitterCell: UITableViewCell {
         {
             usernameLabel.text = user.name as String?
             profileImage.setImageWithURL(user.profileUrl!)
+            screenNameLabel.text = user.screenname as String?
             
         }
     }
@@ -31,9 +34,10 @@ class TwitterCell: UITableViewCell {
             didSet
             {
                 let dateFormatter = NSDateFormatter()
-                dateFormatter.timeStyle = .MediumStyle
+                dateFormatter.dateStyle = .MediumStyle
                 timeLabel.text = dateFormatter.stringFromDate(tweet.timestamp!)
                 tweetLabel.text = tweet.text as? String
+                
                 
             }
         }
@@ -53,6 +57,10 @@ class TwitterCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    @IBAction func like(sender: AnyObject) {
+        tweet.favorites_Count++
+        countLabel.text = "\(tweet.favorites_Count) Likes"
     }
 
 }

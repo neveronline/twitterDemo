@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
         if User.cuttrentUser != nil{
             print("There is a current user")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -35,7 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = vc
             
         }
-        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.barTintColor = UIColor(red: 0.357, green: 0.753, blue: 0.871, alpha: 1)
         return true
     }
 
